@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NOVA AUTOMATE - Automatisez vos processus métier avec n8n. Concentrez-vous sur votre vrai métier.">
+    <title>NOVA AUTOMATE - Arrêtez de perdre du temps, concentrez-vous sur votre vrai métier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .animate-slideUp {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* AI Assistant Styles */
+        .ai-chat-bubble {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .chat-message {
+            animation: slideInMessage 0.3s ease-out;
+        }
+
+        @keyframes slideInMessage {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typing-indicator span {
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50">
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-slate-900">NOVA AUTOMATE</span>
+                </div>
+                
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#services" class="text-slate-600 hover:text-indigo-600 transition font-medium">Services</a>
+                    <a href="#methode" class="text-slate-600 hover:text-indigo-600 transition font-medium">Méthode</a>
+                    <a href="#offres" class="text-slate-600 hover:text-indigo-600 transition font-medium">Offres</a>
+                    <a href="#faq" class="text-slate-600 hover:text-indigo-600 transition font-medium">FAQ</a>
+                    <a href="#contact" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                        Audit gratuit
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition">
+                    <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200 pt-4">
+                <div class="flex flex-col gap-4">
+                    <a href="#services" onclick="toggleMobileMenu()" class="text-slate-600 hover:text-indigo-600 transition font-medium py-2">Services</a>
+                    <a href="#methode" onclick="toggleMobileMenu()" class="text-slate-600 hover:text-indigo-600 transition font-medium py-2">Méthode</a>
+                    <a href="#offres" onclick="toggleMobileMenu()" class="text-slate-600 hover:text-indigo-600 transition font-medium py-2">Offres</a>
+                    <a href="#faq" onclick="toggleMobileMenu()" class="text-slate-600 hover:text-indigo-600 transition font-medium py-2">FAQ</a>
+                    <a href="#contact" onclick="toggleMobileMenu()" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition font-semibold text-center">Audit gratuit</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 text-white py-16 lg:py-32 overflow-hidden">
+        <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L2c+PC9zdmc+');"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="animate-fadeIn text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-indigo-500/20 backdrop-blur-sm border border-indigo-400/30 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Agence d'automatisation basée sur n8n
+                </div>
+                
+                <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                    Arrêtez de perdre du temps,<br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">concentrez-vous sur votre vrai métier</span>
+                </h1>
+                
+                <p class="text-lg sm:text-xl text-slate-300 mb-8 leading-relaxed max-w-3xl mx-auto lg:mx-0">
+                    Nous automatisons vos processus métier avec n8n et une utilisation raisonnée de l'IA. 
+                    Gagnez des heures chaque semaine, réduisez les erreurs, développez votre entreprise.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
+                    <a href="#contact" class="group inline-flex items-center justify-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-slate-100 transition shadow-lg">
+                        Demander un audit gratuit
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                    <a href="#services" class="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition">
+                        Découvrir nos services
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-white/20 max-w-2xl mx-auto lg:mx-0">
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">20h</div>
+                        <div class="text-xs sm:text-sm text-slate-400">gagnées par semaine</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">-88%</div>
+                        <div class="text-xs sm:text-sm text-slate-400">d'erreurs manuelles</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">3-6 mois</div>
+                        <div class="text-xs sm:text-sm text-slate-400">retour sur investissement</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-8 sm:py-12 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-6 sm:mb-8">
+                <div class="inline-flex items-center gap-2 bg-green-50 border border-green-200 px-4 py-2 rounded-full mb-3">
+                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-semibold text-green-900 text-sm">Une dizaine d'entreprises locales nous font déjà confiance</span>
+                </div>
+                <p class="text-slate-600 font-medium text-sm sm:text-base">
+                    Des entreprises de secteurs variés nous confient leurs processus critiques
+                </p>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-8">
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">E-commerce</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">Agences</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">PME Services</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">Consulting</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">SaaS</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">Santé</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">Finance</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">Hôtellerie</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">Formation</div>
+                <div class="text-slate-400 font-semibold text-xs sm:text-base">BTP</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pour qui - 10 SECTEURS -->
+    <section id="pour-qui" class="py-16 sm:py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                    Pour qui ?
+                </h2>
+                <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
+                    PME, agences et entrepreneurs de tous secteurs qui veulent se concentrer sur leur vrai métier
+                </p>
+            </div>
+            
+            <div class="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                
+                <!-- 1. E-commerce -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">E-commerce & Retail</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Gestion manuelle, stocks désynchronisés</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Synchro auto boutique/stock/CRM</p>
+                </div>
+
+                <!-- 2. Agences -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Agences Marketing & Immo</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Saisie leads, relances manuelles</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Création auto fiches + relances programmées</p>
+                </div>
+
+                <!-- 3. PME Services -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">PME de Services</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Tâches admin, facturation manuelle</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Génération auto factures/devis</p>
+                </div>
+
+                <!-- 4. Consulting -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Consulting & Coaching</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> RDV manuel, suivi dispersé</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Calendrier auto + rapports générés</p>
+                </div>
+
+                <!-- 5. SaaS -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">SaaS & Tech</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Onboarding manuel, support répétitif</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Onboarding auto + monitoring centralisé</p>
+                </div>
+
+                <!-- 6. Santé -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Santé & Bien-être</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Gestion RDV, rappels manuels</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> RDV auto + rappels SMS programmés</p>
+                </div>
+
+                <!-- 7. Finance -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Finance & Comptabilité</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Rapprochements manuels, reporting lourd</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Import auto relevés + dashboards temps réel</p>
+                </div>
+
+                <!-- 8. Hôtellerie -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Hôtellerie & Restauration</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Réservations multi-canaux, avis clients</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Synchro réservations + collecte avis auto</p>
+                </div>
+
+                <!-- 9. Formation -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Formation & Éducation</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Inscriptions manuelles, suivi apprenants</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Inscription auto + suivi progression automatisé</p>
+                </div>
+
+                <!-- 10. BTP -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">BTP & Artisans</h3>
+                    <p class="text-sm text-slate-600 mb-2"><strong class="text-red-600">Problème :</strong> Devis manuels, planning dispersé</p>
+                    <p class="text-sm text-slate-600"><strong class="text-green-600">Solution :</strong> Génération devis + planning centralisé</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Services -->
+    <section id="services" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                    Ce que nous faisons
+                </h2>
+                <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
+                    De l'audit à la maintenance, nous gérons l'intégralité du projet d'automatisation
+                </p>
+            </div>
+            
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="group bg-slate-50 rounded-2xl p-6 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Audit & Cartographie</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Analyse approfondie de vos processus pour identifier les opportunités d'automatisation à fort impact.</p>
+                </div>
+
+                <div class="group bg-slate-50 rounded-2xl p-6 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Design de Workflows</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Conception de scénarios n8n sur mesure, optimisés pour votre contexte métier spécifique.</p>
+                </div>
+
+                <div class="group bg-slate-50 rounded-2xl p-6 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Intégrations</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Connexion de tous vos outils : Gmail, Notion, Google Sheets, CRM, API tierces et plus encore.</p>
+                </div>
+
+                <div class="group bg-slate-50 rounded-2xl p-6 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Maintenance & Support</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Suivi continu, optimisations régulières et support réactif pour garantir la fiabilité de vos automatisations.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 sm:mt-12 bg-indigo-50 border-l-4 border-indigo-600 rounded-lg p-4 sm:p-6">
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    <strong class="text-indigo-900">Utilisation raisonnée de l'IA :</strong> Nous intégrons des briques d'IA uniquement quand elles apportent un vrai gain concret : tri automatique d'emails, extraction d'informations structurées, résumés de documents, classification de données. Pas de gadget, que des résultats mesurables.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Méthode -->
+    <section id="methode" class="py-16 sm:py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-50" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+PC9nPjwvc3ZnPg==');"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                    Notre méthode en 4 étapes
+                </h2>
+                <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto">
+                    Un processus clair et transparent pour des résultats garantis
+                </p>
+            </div>
+            
+            <div class="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 hover:border-indigo-500 transition-all h-full">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center text-xl sm:text-2xl font-bold mb-4">
+                        01
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold mb-2">Diagnostic & Audit</h3>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">Appel de 30-45 min pour comprendre vos besoins. Identification des tâches chronophages et cartographie de vos outils existants.</p>
+                    <div class="inline-flex items-center gap-2 text-xs text-indigo-400 font-medium">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        1 jour
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 hover:border-indigo-500 transition-all h-full">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center text-xl sm:text-2xl font-bold mb-4">
+                        02
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold mb-2">Design & Validation</h3>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">Nous créons des schémas de vos futurs workflows. Proposition détaillée avec devis transparent avant tout engagement.</p>
+                    <div class="inline-flex items-center gap-2 text-xs text-indigo-400 font-medium">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        2-3 jours
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 hover:border-indigo-500 transition-all h-full">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center text-xl sm:text-2xl font-bold mb-4">
+                        03
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold mb-2">Mise en place</h3>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">Configuration des workflows n8n, connexion de vos outils, tests approfondis et ajustements jusqu'à validation complète.</p>
+                    <div class="inline-flex items-center gap-2 text-xs text-indigo-400 font-medium">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        1-3 semaines
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 hover:border-indigo-500 transition-all h-full">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center text-xl sm:text-2xl font-bold mb-4">
+                        04
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold mb-2">Suivi & Optimisation</h3>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">Documentation complète, formation de votre équipe, support continu et optimisations basées sur l'usage réel.</p>
+                    <div class="inline-flex items-center gap-2 text-xs text-indigo-400 font-medium">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        En continu
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Offres - 4 OFFRES INCLUANT DISCOVERY -->
+    <section id="offres" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                    Nos offres
+                </h2>
+                <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
+                    Des formules adaptées à votre maturité et vos besoins d'automatisation
+                </p>
+            </div>
+            
+            <div class="grid gap-6 sm:gap-8 lg:grid-cols-4 max-w-7xl mx-auto">
+                
+                <!-- Discovery -->
+                <div class="relative rounded-2xl p-6 bg-slate-50 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <div class="absolute -top-3 left-4 bg-blue-500 text-white text-xs font-bold py-1 px-3 rounded-full">
+                        Découverte
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900 pt-2">Discovery</h3>
+                    <div class="text-2xl font-bold mb-4 text-indigo-600">300-500 CHF</div>
+                    <p class="text-sm mb-6 text-slate-600">Tester l'automatisation avec un premier workflow</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Appel découverte 45 min</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700"><strong>1 workflow simple</strong></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Analyse rapide processus</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Recommandations persos</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Plan d'action détaillé</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">2 semaines de support</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="block w-full text-center py-3 rounded-lg font-semibold transition bg-indigo-600 text-white hover:bg-indigo-700">
+                        Découvrir
+                    </a>
+                </div>
+
+                <!-- Starter -->
+                <div class="relative rounded-2xl p-6 bg-slate-50 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Starter</h3>
+                    <div class="text-2xl font-bold mb-4 text-indigo-600">2 500 CHF</div>
+                    <p class="text-sm mb-6 text-slate-600">Pour vos premiers processus automatisés</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Audit initial</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">2-3 workflows n8n</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">3-5 outils intégrés</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Documentation complète</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">1 mois de support</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Formation 2h</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="block w-full text-center py-3 rounded-lg font-semibold transition bg-indigo-600 text-white hover:bg-indigo-700">
+                        Démarrer
+                    </a>
+                </div>
+
+                <!-- Pro (Highlighted) -->
+                <div class="relative rounded-2xl p-6 bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-2xl scale-105">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-slate-900 text-xs font-bold py-1 px-4 rounded-full whitespace-nowrap">
+                        Le plus populaire
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-2 text-white pt-2">Pro</h3>
+                    <div class="text-2xl font-bold mb-4 text-white">7 500 CHF</div>
+                    <p class="text-sm mb-6 text-indigo-100">Transformation significative</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-white">Audit approfondi</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-white">5-8 workflows complexes</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-white">Intégrations illimitées</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-white">IA avancée</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-white">3 mois support prioritaire</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-white">Formation équipe</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="block w-full text-center py-3 rounded-lg font-semibold transition bg-white text-indigo-600 hover:bg-slate-100">
+                        Choisir Pro
+                    </a>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="relative rounded-2xl p-6 bg-slate-50 border-2 border-slate-200 hover:border-indigo-300 transition-all hover:shadow-lg">
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Enterprise</h3>
+                    <div class="text-2xl font-bold mb-4 text-indigo-600">Sur mesure</div>
+                    <p class="text-sm mb-6 text-slate-600">Automatisation à l'échelle</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Architecture sur mesure</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">Workflows illimités</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">API complexes</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">IA intégrée partout</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">6 mois support dédié</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm text-slate-700">SLA garantis</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="block w-full text-center py-3 rounded-lg font-semibold transition bg-indigo-600 text-white hover:bg-indigo-700">
+                        Nous contacter
+                    </a>
+                </div>
+
+            </div>
+            
+            <div class="mt-8 sm:mt-12 text-center bg-yellow-50 border-l-4 border-yellow-400 rounded-lg p-4 sm:p-6 max-w-4xl mx-auto">
+                <p class="text-slate-700 text-sm sm:text-base">
+                    <strong>Tarification transparente :</strong> Les prix finaux sont définis après votre audit gratuit. Chaque projet est unique, nous adaptons nos solutions et notre tarification à vos besoins réels et votre budget.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ -->
+    <section id="faq" class="py-16 sm:py-24 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                    Questions fréquentes
+                </h2>
+            </div>
+            
+            <div class="space-y-4">
+                <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
+                    <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Combien de temps dure un projet d'automatisation ?</span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Cela dépend de la complexité. Pour des workflows simples (offre Discovery ou Starter), comptez 1-2 semaines. Pour des projets plus complexes (Pro), 3-6 semaines. Les projets Enterprise peuvent s'étaler sur 2-3 mois selon l'ampleur.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
+                    <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Comment se passe l'audit gratuit ?</span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
+                        C'est un appel de 30-45 minutes où nous discutons de vos processus actuels, des tâches qui vous prennent le plus de temps et des outils que vous utilisez. Nous identifions ensemble les opportunités d'automatisation à fort impact. Aucun engagement, aucun frais.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
+                    <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Je n'ai jamais utilisé n8n, est-ce un problème ?</span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Absolument pas. Nous nous occupons de tout : installation, configuration, création des workflows et formation. Vous n'avez pas besoin de connaissances techniques. Nous vous fournissons une documentation claire et une formation adaptée à votre équipe.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
+                    <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Quels outils pouvez-vous connecter ?</span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
+                        n8n peut se connecter à plus de 400 applications : Gmail, Google Workspace, Notion, Airtable, la plupart des CRM (HubSpot, Salesforce, Pipedrive), Slack, WhatsApp, les bases de données, les APIs REST, et bien plus. Si votre outil a une API, nous pouvons l'intégrer.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
+                    <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Que se passe-t-il si un workflow tombe en panne ?</span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Nos workflows incluent une gestion d'erreurs robuste et des alertes automatiques. En cas de problème, nous sommes notifiés immédiatement. Selon votre offre, vous bénéficiez d'un support avec des temps de réponse garantis pour résoudre rapidement tout incident.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
+                    <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Comment utilisez-vous l'IA dans les automatisations ?</span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Nous intégrons l'IA de manière pragmatique : extraction d'informations depuis des emails ou documents, catégorisation automatique de données, génération de résumés, analyse de sentiment dans les retours clients. Uniquement quand cela apporte un gain mesurable, pas pour le principe.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 sm:mb-12">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                    Demandez votre audit gratuit
+                </h2>
+                <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
+                    Décrivez-nous votre situation en 2 minutes. Nous vous recontactons sous 24h pour planifier votre diagnostic.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <form id="contactForm" onsubmit="handleSubmit(event)" class="bg-slate-50 rounded-2xl p-6 sm:p-8 border-2 border-slate-200">
+                        <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Prénom *</label>
+                                <input type="text" name="prenom" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Nom *</label>
+                                <input type="text" name="nom" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Entreprise *</label>
+                            <input type="text" name="entreprise" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                        </div>
+                        
+                        <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Email professionnel *</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Téléphone</label>
+                                <input type="tel" name="telephone" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Secteur d'activité</label>
+                            <select name="secteur" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                                <option value="">Sélectionnez...</option>
+                                <option value="ecommerce">E-commerce / Retail</option>
+                                <option value="agence">Agence (Marketing, Immobilier, etc.)</option>
+                                <option value="services">PME de Services</option>
+                                <option value="consulting">Consulting / Coaching</option>
+                                <option value="saas">SaaS & Tech</option>
+                                <option value="sante">Santé & Bien-être</option>
+                                <option value="finance">Finance & Comptabilité</option>
+                                <option value="hotellerie">Hôtellerie & Restauration</option>
+                                <option value="formation">Formation & Éducation</option>
+                                <option value="btp">BTP & Artisans</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Quelles tâches vous prennent le plus de temps ? *</label>
+                            <textarea name="taches" required rows="4" placeholder="Ex : Gestion manuelle des demandes clients, saisie répétitive de données, création de rapports..." class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition resize-none text-base"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Quels outils utilisez-vous actuellement ?</label>
+                            <input type="text" name="outils" placeholder="Ex : Gmail, Notion, Google Sheets, HubSpot..." class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                        </div>
+                        
+                        <div class="mb-8">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Priorité</label>
+                            <select name="priorite" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none transition text-base">
+                                <option value="non-urgent">Non urgent - Je me renseigne</option>
+                                <option value="important">Important - Dans les prochaines semaines</option>
+                                <option value="urgent">Urgent - Le plus tôt possible</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                            Envoyer ma demande
+                        </button>
+                        
+                        <div id="successMessage" class="hidden mt-6 bg-green-50 border-l-4 border-green-600 rounded-lg p-4">
+                            <p class="text-green-900 font-semibold text-sm sm:text-base">Merci ! Votre demande a été envoyée.</p>
+                            <p class="text-green-700 text-sm mt-1">Nous vous recontactons sous 24h.</p>
+                        </div>
+                        
+                        <div id="errorMessage" class="hidden mt-6 bg-red-50 border-l-4 border-red-600 rounded-lg p-4">
+                            <p class="text-red-900 font-semibold text-sm sm:text-base">Une erreur s'est produite.</p>
+                            <p class="text-red-700 text-sm mt-1">Veuillez réessayer ou nous contacter directement.</p>
+                        </div>
+                        
+                        <p class="text-xs text-slate-500 text-center mt-4">
+                            En envoyant ce formulaire, vous acceptez d'être recontacté par NOVA AUTOMATE concernant votre demande.
+                        </p>
+                    </form>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-6">Contact direct</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-indigo-200 mb-1">Email</div>
+                                    <a href="mailto:Novaautomatisation@gmail.com" class="font-medium hover:underline break-all text-sm">
+                                        Novaautomatisation@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-indigo-200 mb-1">Téléphone</div>
+                                    <a href="tel:+41782339726" class="font-medium hover:underline text-lg">
+                                        078 233 97 26
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-indigo-200 mb-1">Adresse</div>
+                                    <p class="font-medium text-sm">
+                                        Rue Jardinière 111<br>
+                                        2300 La Chaux-de-Fonds<br>
+                                        Suisse
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 rounded-2xl p-6 border-2 border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-900 mb-4">Nos garanties</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm text-slate-700">Audit 100% gratuit et sans engagement</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm text-slate-700">Réponse garantie sous 24h ouvrées</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm text-slate-700">Devis transparent et détaillé</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm text-slate-700">Accompagnement personnalisé</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 sm:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold">NOVA AUTOMATE</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Automatisation intelligente pour PME et agences. Basés en Suisse romande.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-sm sm:text-base">Navigation</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#services" class="text-slate-400 hover:text-white transition">Services</a></li>
+                        <li><a href="#methode" class="text-slate-400 hover:text-white transition">Méthode</a></li>
+                        <li><a href="#offres" class="text-slate-400 hover:text-white transition">Offres</a></li>
+                        <li><a href="#faq" class="text-slate-400 hover:text-white transition">FAQ</a></li>
+                        <li><a href="#contact" class="text-slate-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-sm sm:text-base">Contact</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="break-all">Novaautomatisation@gmail.com</li>
+                        <li>078 233 97 26</li>
+                        <li>Rue Jardinière 111</li>
+                        <li>2300 La Chaux-de-Fonds</li>
+                        <li>Suisse</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-sm sm:text-base">Notre équipe</h4>
+                    <p class="text-sm text-slate-400 mb-4">
+                        Une équipe d'experts en automatisation et optimisation de processus métier.
+                    </p>
+                    <a href="#contact" class="inline-block bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">
+                        Nous contacter
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-slate-400">
+                <p>&copy; 2025 NOVA AUTOMATE. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Assistant Widget -->
+    <div id="aiAssistant" class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Bubble Button -->
+        <button id="aiChatBtn" onclick="toggleAIChat()" class="ai-chat-bubble w-16 h-16 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-full flex items-center justify-center shadow-2xl hover:shadow-indigo-500/50 transition-all">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            </svg>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="aiChatWindow" class="hidden absolute bottom-20 right-0 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border-2 border-slate-200 overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-br from-indigo-600 to-violet-600 p-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold text-sm">Assistant NOVA</h3>
+                        <p class="text-indigo-200 text-xs">En ligne</p>
+                    </div>
+                </div>
+                <button onclick="toggleAIChat()" class="text-white/80 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Chat Content -->
+            <div class="h-96 overflow-y-auto p-4 space-y-4 bg-slate-50" id="chatContent">
+                <!-- Welcome Message -->
+                <div class="chat-message flex items-start gap-3">
+                    <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm max-w-xs">
+                        <p class="text-sm text-slate-700">Bonjour ! Je suis l'assistant NOVA. Comment puis-je vous aider aujourd'hui ?</p>
+                        <div class="mt-3 space-y-2">
+                            <button onclick="askAI('Combien ça coûte ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
+                                💰 Combien ça coûte ?
+                            </button>
+                            <button onclick="askAI('C\\'est quoi n8n ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
+                                🤔 C'est quoi n8n ?
+                            </button>
+                            <button onclick="askAI('Combien de temps ça prend ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
+                                ⏱️ Combien de temps ça prend ?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-slate-200 p-4 bg-white">
+                <div class="flex gap-2">
+                    <input type="text" id="aiInput" placeholder="Posez votre question..." class="flex-1 px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-500 focus:outline-none text-sm" onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button onclick="sendMessage()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu mobile toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            menu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        }
+
+        // AI Chat Toggle
+        function toggleAIChat() {
+            const chatWindow = document.getElementById('aiChatWindow');
+            chatWindow.classList.toggle('hidden');
+        }
+
+        // Send Message
+        function sendMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                setTimeout(() => respondToMessage(message), 500);
+            }
+        }
+
+        // Ask AI (from quick buttons)
+        function askAI(question) {
+            addUserMessage(question);
+            setTimeout(() => respondToMessage(question), 500);
+        }
+
+        // Add User Message
+        function addUserMessage(message) {
+            const chatContent = document.getElementById('chatContent');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message flex items-start gap-3 justify-end';
+            messageDiv.innerHTML = `
+                <div class="bg-indigo-600 text-white p-3 rounded-lg shadow-sm max-w-xs">
+                    <p class="text-sm">${message}</p>
+                </div>
+            `;
+            chatContent.appendChild(messageDiv);
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        // Add AI Response
+        function addAIMessage(message) {
+            const chatContent = document.getElementById('chatContent');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message flex items-start gap-3';
+            messageDiv.innerHTML = `
+                <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm max-w-xs">
+                    <p class="text-sm text-slate-700">${message}</p>
+                </div>
+            `;
+            chatContent.appendChild(messageDiv);
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        // Respond to Message
+        function respondToMessage(message) {
+            const lowerMsg = message.toLowerCase();
+            
+            if (lowerMsg.includes('coût') || lowerMsg.includes('prix') || lowerMsg.includes('tarif')) {
+                addAIMessage('Nous avons 4 offres :<br>• <strong>Discovery</strong> : 300-500 CHF (1 workflow)<br>• <strong>Starter</strong> : 2 500 CHF<br>• <strong>Pro</strong> : 7 500 CHF<br>• <strong>Enterprise</strong> : Sur mesure<br><br>L\'audit gratuit vous permet d\'obtenir un devis précis ! 💰');
+            } else if (lowerMsg.includes('n8n')) {
+                addAIMessage('n8n est une plateforme d\'automatisation open-source qui permet de connecter vos outils (Gmail, Notion, CRM, etc.) et d\'automatiser vos tâches répétitives. C\'est comme Zapier, mais en plus puissant et flexible ! 🚀');
+            } else if (lowerMsg.includes('temps') || lowerMsg.includes('durée') || lowerMsg.includes('combien')) {
+                addAIMessage('Cela dépend de la complexité :<br>• <strong>Discovery/Starter</strong> : 1-2 semaines<br>• <strong>Pro</strong> : 3-6 semaines<br>• <strong>Enterprise</strong> : 2-3 mois<br><br>L\'audit gratuit vous donnera un planning précis ! ⏱️');
+            } else if (lowerMsg.includes('outil') || lowerMsg.includes('intégr')) {
+                addAIMessage('n8n peut se connecter à plus de 400 applications : Gmail, Google Workspace, Notion, Airtable, CRM (HubSpot, Salesforce), Slack, WhatsApp, et bien plus. Si votre outil a une API, on peut l\'intégrer ! 🔌');
+            } else if (lowerMsg.includes('audit') || lowerMsg.includes('gratuit')) {
+                addAIMessage('L\'audit gratuit, c\'est un appel de 30-45 min où nous analysons vos processus et identifions les opportunités d\'automatisation. Aucun engagement, aucun frais ! Utilisez le formulaire de contact ci-dessous. 🎯');
+            } else if (lowerMsg.includes('IA') || lowerMsg.includes('intelligence')) {
+                addAIMessage('Nous utilisons l\'IA de manière raisonnée : tri d\'emails, extraction d\'infos, catégorisation de données, résumés de documents. Uniquement quand ça apporte un gain mesurable, pas pour le principe ! 🤖');
+            } else {
+                addAIMessage('Je peux répondre à des questions sur :<br>• Les tarifs 💰<br>• n8n 🔧<br>• Les délais ⏱️<br>• Les intégrations 🔌<br>• L\'audit gratuit 🎯<br><br>Ou utilisez le formulaire de contact pour parler directement à l\'équipe ! 📞');
+            }
+        }
+
+        // Form submission
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Hide messages
+            successMsg.classList.add('hidden');
+            errorMsg.classList.add('hidden');
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                // REMPLACEZ 'YOUR_N8N_WEBHOOK_URL' PAR VOTRE VRAIE URL N8N
+                const response = await fetch('https://novaautomatisation.app.n8n.cloud/webhook/nova-contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    successMsg.classList.remove('hidden');
+                    form.reset();
+                    successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    throw new Error('Network error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMsg.classList.remove('hidden');
+                errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Envoyer ma demande';
+            }
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
