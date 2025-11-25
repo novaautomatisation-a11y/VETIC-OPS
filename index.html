@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="VETIC OPS - Automatisez vos processus métier avec n8n. Concentrez-vous sur votre vrai métier.">
+    <meta name="description" content="VETIC OPS - Automatisez vos processus métier avec nos solutions d'automatisation. Concentrez-vous sur votre cœur de métier.">
     <title>VETIC OPS - Arrêtez de perdre du temps, concentrez-vous sur votre vrai métier</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -121,6 +121,24 @@
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-10px); }
         }
+
+        /* Section Title Accents */
+        .section-title-accent {
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title-accent::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 60%;
+            background: linear-gradient(to bottom, var(--primary-blue), #7dd3fc);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50">
@@ -195,12 +213,12 @@
                     <!-- Subtitle -->
                     <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 leading-relaxed" style="color: var(--text-secondary);">
                         Automatisez vos processus métier avec l'IA.<br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r" style="background-image: linear-gradient(to right, var(--primary-blue), #7dd3fc);">Concentrez-vous sur votre vrai métier</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r" style="background-image: linear-gradient(to right, var(--primary-blue), #7dd3fc);">Concentrez-vous sur votre cœur de métier</span>
                     </h2>
 
                     <!-- Description -->
                     <p class="text-base sm:text-lg mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0" style="color: var(--text-secondary);">
-                        Nous automatisons vos processus avec n8n et une utilisation raisonnée de l'IA.
+                        Nous automatisons pour vous toutes les tâches répétitives et chronophages avec nos outils d'automatisation et une utilisation raisonnée de l'IA.
                         Gagnez des heures chaque semaine, réduisez les erreurs, développez votre entreprise.
                     </p>
 
@@ -217,19 +235,19 @@
                         </a>
                     </div>
 
-                    <!-- Stats -->
-                    <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t max-w-2xl mx-auto lg:mx-0" style="border-color: rgba(56, 189, 248, 0.3);">
-                        <div>
-                            <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">20h</div>
-                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">gagnées par semaine</div>
+                    <!-- Stats - KPI Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-8 max-w-2xl mx-auto lg:mx-0">
+                        <div class="hero-card rounded-xl p-4 border-2" style="background-color: rgba(15, 23, 42, 0.6); border-color: var(--primary-blue);">
+                            <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">~20h</div>
+                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">gagnées par mois sur les tâches répétitives</div>
                         </div>
-                        <div>
+                        <div class="hero-card rounded-xl p-4 border-2" style="background-color: rgba(15, 23, 42, 0.6); border-color: var(--primary-blue);">
                             <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">-88%</div>
-                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">d'erreurs manuelles</div>
+                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">d'erreurs en moins sur certaines tâches manuelles</div>
                         </div>
-                        <div>
+                        <div class="hero-card rounded-xl p-4 border-2" style="background-color: rgba(15, 23, 42, 0.6); border-color: var(--primary-blue);">
                             <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">3-6 mois</div>
-                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">retour sur investissement</div>
+                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">ROI typique observé selon la complexité</div>
                         </div>
                     </div>
                 </div>
@@ -308,7 +326,7 @@
                     <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    <span class="font-semibold text-green-900 text-sm">Une dizaine d'entreprises locales nous font déjà confiance</span>
+                    <span class="font-semibold text-green-900 text-sm">Plusieurs entreprises locales nous font déjà confiance</span>
                 </div>
                 <p class="text-slate-600 font-medium text-sm sm:text-base">
                     Des entreprises de secteurs variés nous confient leurs processus critiques
@@ -330,10 +348,10 @@
     </section>
 
     <!-- Pour qui - 10 SECTEURS -->
-    <section id="pour-qui" class="py-16 sm:py-24 bg-slate-50">
+    <section id="pour-qui" class="py-16 sm:py-24 bg-gradient-to-b from-slate-50 to-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 section-title-accent inline-block">
                     Pour qui ?
                 </h2>
                 <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
@@ -469,10 +487,10 @@
 
 
     <!-- Services -->
-    <section id="services" class="py-16 sm:py-24 bg-white">
+    <section id="services" class="py-16 sm:py-24 bg-gradient-to-b from-white to-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 section-title-accent inline-block">
                     Ce que nous faisons
                 </h2>
                 <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
@@ -498,7 +516,7 @@
                         </svg>
                     </div>
                     <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Design de Workflows</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Conception de scénarios n8n sur mesure, optimisés pour votre contexte métier spécifique.</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">Conception de scénarios d'automatisation sur mesure avec nos outils (n8n, Make, API, etc.), optimisés pour votre contexte métier spécifique.</p>
                 </div>
 
                 <div class="group bg-slate-50 rounded-2xl p-6 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
@@ -531,12 +549,12 @@
     </section>
 
     <!-- Méthode -->
-    <section id="methode" class="py-16 sm:py-24 bg-slate-900 text-white relative overflow-hidden">
+    <section id="methode" class="py-16 sm:py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
         <div class="absolute inset-0 opacity-50" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+PC9nPjwvc3ZnPg==');"></div>
-        
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 section-title-accent inline-block">
                     Notre méthode en 4 étapes
                 </h2>
                 <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto">
@@ -578,7 +596,7 @@
                         03
                     </div>
                     <h3 class="text-lg sm:text-xl font-bold mb-2">Mise en place</h3>
-                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">Configuration des workflows n8n, connexion de vos outils, tests approfondis et ajustements jusqu'à validation complète.</p>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">Configuration des workflows d'automatisation, connexion de vos outils, tests approfondis et ajustements jusqu'à validation complète.</p>
                     <div class="inline-flex items-center gap-2 text-xs text-indigo-400 font-medium">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -606,10 +624,10 @@
 
 
     <!-- Offres - 4 OFFRES INCLUANT DISCOVERY -->
-    <section id="offres" class="py-16 sm:py-24 bg-white">
+    <section id="offres" class="py-16 sm:py-24 bg-gradient-to-b from-white to-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 section-title-accent inline-block">
                     Nos offres
                 </h2>
                 <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
@@ -689,7 +707,7 @@
                             <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                             </svg>
-                            <span class="text-sm text-slate-700">2-3 workflows n8n</span>
+                            <span class="text-sm text-slate-700">2-3 workflows d'automatisation</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -838,10 +856,10 @@
 
 
     <!-- FAQ -->
-    <section id="faq" class="py-16 sm:py-24 bg-slate-50">
+    <section id="faq" class="py-16 sm:py-24 bg-gradient-to-b from-slate-50 to-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 section-title-accent inline-block">
                     Questions fréquentes
                 </h2>
             </div>
@@ -873,7 +891,7 @@
 
                 <details class="group bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all">
                     <summary class="flex items-center justify-between p-4 sm:p-6 cursor-pointer">
-                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Je n'ai jamais utilisé n8n, est-ce un problème ?</span>
+                        <span class="font-semibold text-slate-900 pr-4 text-sm sm:text-base">Je n'ai pas de connaissances techniques, est-ce un problème ?</span>
                         <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -891,7 +909,7 @@
                         </svg>
                     </summary>
                     <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-slate-600 text-sm sm:text-base leading-relaxed">
-                        n8n peut se connecter à plus de 400 applications : Gmail, Google Workspace, Notion, Airtable, la plupart des CRM (HubSpot, Salesforce, Pipedrive), Slack, WhatsApp, les bases de données, les APIs REST, et bien plus. Si votre outil a une API, nous pouvons l'intégrer.
+                        Nos outils d'automatisation peuvent se connecter à plus de 400 applications : Gmail, Google Workspace, Notion, Airtable, la plupart des CRM (HubSpot, Salesforce, Pipedrive), Slack, WhatsApp, les bases de données, les APIs REST, et bien plus. Si votre outil a une API, nous pouvons l'intégrer.
                     </div>
                 </details>
 
@@ -924,10 +942,10 @@
 
 
     <!-- Contact -->
-    <section id="contact" class="py-16 sm:py-24 bg-white">
+    <section id="contact" class="py-16 sm:py-24 bg-gradient-to-b from-white to-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8 sm:mb-12">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 section-title-accent inline-block">
                     Demandez votre audit gratuit
                 </h2>
                 <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
@@ -1017,7 +1035,7 @@
                         </div>
                         
                         <p class="text-xs text-slate-500 text-center mt-4">
-                            En envoyant ce formulaire, vous acceptez d'être recontacté par NOVA AUTOMATE concernant votre demande.
+                            En envoyant ce formulaire, vous acceptez d'être recontacté par VETIC OPS concernant votre demande.
                         </p>
                     </form>
                 </div>
@@ -1111,7 +1129,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
-                        <span class="text-xl font-bold">NOVA AUTOMATE</span>
+                        <span class="text-xl font-bold">VETIC OPS</span>
                     </div>
                     <p class="text-slate-400 text-sm leading-relaxed">
                         Automatisation intelligente pour PME et agences. Basés en Suisse romande.
@@ -1152,7 +1170,7 @@
             </div>
             
             <div class="border-t border-slate-800 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-slate-400">
-                <p>&copy; 2025 NOVA AUTOMATE. Tous droits réservés.</p>
+                <p>&copy; 2025 VETIC OPS. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
@@ -1177,7 +1195,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-white font-bold text-sm">Assistant NOVA</h3>
+                        <h3 class="text-white font-bold text-sm">Assistant VETIC OPS</h3>
                         <p class="text-indigo-200 text-xs">En ligne</p>
                     </div>
                 </div>
@@ -1198,13 +1216,13 @@
                         </svg>
                     </div>
                     <div class="bg-white p-3 rounded-lg shadow-sm max-w-xs">
-                        <p class="text-sm text-slate-700">Bonjour ! Je suis l'assistant NOVA. Comment puis-je vous aider aujourd'hui ?</p>
+                        <p class="text-sm text-slate-700">Bonjour ! Je suis l'assistant VETIC OPS. Comment puis-je vous aider aujourd'hui ?</p>
                         <div class="mt-3 space-y-2">
                             <button onclick="askAI('Combien ça coûte ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
                                 💰 Combien ça coûte ?
                             </button>
-                            <button onclick="askAI('C\\'est quoi n8n ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
-                                🤔 C'est quoi n8n ?
+                            <button onclick="askAI('Comment ça marche ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
+                                🤔 Comment ça marche ?
                             </button>
                             <button onclick="askAI('Combien de temps ça prend ?')" class="block w-full text-left text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-2 rounded transition">
                                 ⏱️ Combien de temps ça prend ?
@@ -1302,18 +1320,18 @@
             
             if (lowerMsg.includes('coût') || lowerMsg.includes('prix') || lowerMsg.includes('tarif')) {
                 addAIMessage('Nous avons 4 offres :<br>• <strong>Discovery</strong> : 300-500 CHF (1 workflow)<br>• <strong>Starter</strong> : 2 500 CHF<br>• <strong>Pro</strong> : 7 500 CHF<br>• <strong>Enterprise</strong> : Sur mesure<br><br>L\'audit gratuit vous permet d\'obtenir un devis précis ! 💰');
-            } else if (lowerMsg.includes('n8n')) {
-                addAIMessage('n8n est une plateforme d\'automatisation open-source qui permet de connecter vos outils (Gmail, Notion, CRM, etc.) et d\'automatiser vos tâches répétitives. C\'est comme Zapier, mais en plus puissant et flexible ! 🚀');
+            } else if (lowerMsg.includes('marche') || lowerMsg.includes('fonctionne')) {
+                addAIMessage('Nous utilisons des outils d\'automatisation professionnels (n8n, Make, API, etc.) qui permettent de connecter vos applications (Gmail, Notion, CRM, etc.) et d\'automatiser vos tâches répétitives. Nous concevons des workflows sur mesure adaptés à votre métier ! 🚀');
             } else if (lowerMsg.includes('temps') || lowerMsg.includes('durée') || lowerMsg.includes('combien')) {
                 addAIMessage('Cela dépend de la complexité :<br>• <strong>Discovery/Starter</strong> : 1-2 semaines<br>• <strong>Pro</strong> : 3-6 semaines<br>• <strong>Enterprise</strong> : 2-3 mois<br><br>L\'audit gratuit vous donnera un planning précis ! ⏱️');
             } else if (lowerMsg.includes('outil') || lowerMsg.includes('intégr')) {
-                addAIMessage('n8n peut se connecter à plus de 400 applications : Gmail, Google Workspace, Notion, Airtable, CRM (HubSpot, Salesforce), Slack, WhatsApp, et bien plus. Si votre outil a une API, on peut l\'intégrer ! 🔌');
+                addAIMessage('Nos outils d\'automatisation peuvent se connecter à plus de 400 applications : Gmail, Google Workspace, Notion, Airtable, CRM (HubSpot, Salesforce), Slack, WhatsApp, et bien plus. Si votre outil a une API, on peut l\'intégrer ! 🔌');
             } else if (lowerMsg.includes('audit') || lowerMsg.includes('gratuit')) {
                 addAIMessage('L\'audit gratuit, c\'est un appel de 30-45 min où nous analysons vos processus et identifions les opportunités d\'automatisation. Aucun engagement, aucun frais ! Utilisez le formulaire de contact ci-dessous. 🎯');
             } else if (lowerMsg.includes('IA') || lowerMsg.includes('intelligence')) {
                 addAIMessage('Nous utilisons l\'IA de manière raisonnée : tri d\'emails, extraction d\'infos, catégorisation de données, résumés de documents. Uniquement quand ça apporte un gain mesurable, pas pour le principe ! 🤖');
             } else {
-                addAIMessage('Je peux répondre à des questions sur :<br>• Les tarifs 💰<br>• n8n 🔧<br>• Les délais ⏱️<br>• Les intégrations 🔌<br>• L\'audit gratuit 🎯<br><br>Ou utilisez le formulaire de contact pour parler directement à l\'équipe ! 📞');
+                addAIMessage('Je peux répondre à des questions sur :<br>• Les tarifs 💰<br>• Comment ça marche 🔧<br>• Les délais ⏱️<br>• Les intégrations 🔌<br>• L\'audit gratuit 🎯<br><br>Ou utilisez le formulaire de contact pour parler directement à l\'équipe ! 📞');
             }
         }
 
@@ -1378,4 +1396,5 @@
     </script>
 
 </body>
+
 </html>
