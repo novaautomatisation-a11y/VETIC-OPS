@@ -8,35 +8,74 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        
+
+        /* CSS Variables - VETIC OPS Dark Blue Palette */
+        :root {
+            --hero-bg: #020617;
+            --hero-bg-secondary: #0f172a;
+            --primary-blue: #38bdf8;
+            --primary-blue-hover: #0ea5e9;
+            --text-primary: #f9fafb;
+            --text-secondary: #e5e7eb;
+            --card-bg: #0f172a;
+        }
+
         * {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
-        
+
+        /* Hero Animations */
         .animate-fadeIn {
             animation: fadeIn 0.6s ease-out forwards;
         }
-        
+
         .animate-slideUp {
-            animation: slideUp 0.8s ease-out forwards;
+            animation: slideUp 0.7s ease-out forwards;
         }
-        
+
+        .animate-float {
+            animation: float 7s ease-in-out infinite;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { 
+            from {
                 opacity: 0;
-                transform: translateY(30px);
             }
-            to { 
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Card Hover Effects */
+        .hero-card {
+            transition: all 0.3s ease;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+        }
+
         details summary::-webkit-details-marker {
             display: none;
         }
@@ -45,7 +84,7 @@
         .ai-chat-bubble {
             animation: bounce 2s infinite;
         }
-        
+
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -69,15 +108,15 @@
         .typing-indicator span {
             animation: typing 1.4s infinite;
         }
-        
+
         .typing-indicator span:nth-child(2) {
             animation-delay: 0.2s;
         }
-        
+
         .typing-indicator span:nth-child(3) {
             animation-delay: 0.4s;
         }
-        
+
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-10px); }
@@ -134,83 +173,129 @@
         </nav>
     </header>
 
-    <!-- Hero Section - VETIC OPS Workspace Style -->
-    <section class="relative bg-gradient-to-br from-teal-50 via-blue-50 to-indigo-50 py-16 lg:py-24 overflow-hidden">
-        <!-- Subtle pattern overlay -->
-        <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDAsNzUsOTUsMC4xKSIvPjwvZz48L3N2Zz4=');"></div>
-
+    <!-- Hero Section - VETIC OPS Dark Blue AI Theme -->
+    <section class="relative py-16 lg:py-24 overflow-hidden" style="background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <!-- Left: Content -->
-                <div class="animate-fadeIn text-center lg:text-left">
+                <div class="animate-slideUp text-center lg:text-left">
                     <!-- Badge -->
-                    <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-indigo-200 px-4 py-2 rounded-full text-sm font-medium mb-6 shadow-sm">
-                        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-sky-400/30 px-4 py-2 rounded-full text-sm font-medium mb-6 shadow-sm">
+                        <svg class="w-4 h-4" style="color: var(--primary-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
-                        <span class="text-slate-700">Agence d'automatisation basée sur n8n</span>
+                        <span style="color: var(--text-secondary);">Agence d'automatisation IA en Suisse</span>
                     </div>
 
                     <!-- Main Title: VETIC OPS -->
-                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight tracking-wider text-slate-900">
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight tracking-widest" style="color: var(--text-primary);">
                         VETIC OPS
                     </h1>
 
                     <!-- Subtitle -->
-                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-slate-800">
-                        Arrêtez de perdre du temps,<br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">concentrez-vous sur votre vrai métier</span>
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 leading-relaxed" style="color: var(--text-secondary);">
+                        Automatisez vos processus métier avec l'IA.<br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r" style="background-image: linear-gradient(to right, var(--primary-blue), #7dd3fc);">Concentrez-vous sur votre vrai métier</span>
                     </h2>
 
                     <!-- Description -->
-                    <p class="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                        Nous automatisons vos processus métier avec n8n et une utilisation raisonnée de l'IA.
+                    <p class="text-base sm:text-lg mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0" style="color: var(--text-secondary);">
+                        Nous automatisons vos processus avec n8n et une utilisation raisonnée de l'IA.
                         Gagnez des heures chaque semaine, réduisez les erreurs, développez votre entreprise.
                     </p>
 
-                    <!-- CTA Buttons with enhanced hover effects -->
+                    <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
-                        <a href="#contact" class="group inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-lg">
+                        <a href="#contact" class="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-lg" style="background-color: var(--primary-blue); color: #020617;">
                             Demander un audit gratuit
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
-                        <a href="#services" class="inline-flex items-center justify-center gap-2 border-2 border-slate-300 bg-white text-slate-700 px-8 py-4 rounded-lg font-semibold hover:border-indigo-400 hover:bg-slate-50 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                        <a href="#services" class="inline-flex items-center justify-center gap-2 border-2 px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" style="border-color: var(--primary-blue); background-color: rgba(56, 189, 248, 0.1); color: var(--text-primary);">
                             Découvrir nos services
                         </a>
                     </div>
 
                     <!-- Stats -->
-                    <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-slate-300 max-w-2xl mx-auto lg:mx-0">
+                    <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t max-w-2xl mx-auto lg:mx-0" style="border-color: rgba(56, 189, 248, 0.3);">
                         <div>
-                            <div class="text-2xl sm:text-3xl font-bold mb-1 text-indigo-600">20h</div>
-                            <div class="text-xs sm:text-sm text-slate-600">gagnées par semaine</div>
+                            <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">20h</div>
+                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">gagnées par semaine</div>
                         </div>
                         <div>
-                            <div class="text-2xl sm:text-3xl font-bold mb-1 text-indigo-600">-88%</div>
-                            <div class="text-xs sm:text-sm text-slate-600">d'erreurs manuelles</div>
+                            <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">-88%</div>
+                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">d'erreurs manuelles</div>
                         </div>
                         <div>
-                            <div class="text-2xl sm:text-3xl font-bold mb-1 text-indigo-600">3-6 mois</div>
-                            <div class="text-xs sm:text-sm text-slate-600">retour sur investissement</div>
+                            <div class="text-2xl sm:text-3xl font-bold mb-1" style="color: var(--primary-blue);">3-6 mois</div>
+                            <div class="text-xs sm:text-sm" style="color: var(--text-secondary);">retour sur investissement</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Workspace Image -->
-                <div class="animate-fadeIn order-first lg:order-last">
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                <!-- Right: AI Robot Hand Image -->
+                <div class="order-first lg:order-last">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl animate-float">
                         <img
-                            src="https://images.pexels.com/photos/3730760/pexels-photo-3730760.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                            alt="Bureau moderne avec laptop - VETIC OPS workspace"
-                            class="w-full h-auto object-cover rounded-2xl hover:scale-105 transition-transform duration-500"
+                            src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                            alt="Main robotique IA pointant vers réseau lumineux - VETIC OPS"
+                            class="w-full h-auto object-cover rounded-2xl"
                             loading="eager"
                         />
                         <!-- Subtle overlay gradient -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/20 to-transparent pointer-events-none"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-sky-900/10 to-transparent pointer-events-none"></div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Feature Cards - Just below Hero -->
+    <section class="py-12 lg:py-16" style="background-color: var(--hero-bg-secondary);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-8">
+
+                <!-- Card 1: Digital Infrastructure -->
+                <div class="hero-card rounded-2xl overflow-hidden shadow-lg" style="background-color: var(--card-bg);">
+                    <div class="h-64 overflow-hidden">
+                        <img
+                            src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=800"
+                            alt="Infrastructure digitale automatisée - Ville connectée"
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--text-primary);">
+                            Infrastructure digitale automatisée
+                        </h3>
+                        <p class="text-base leading-relaxed" style="color: var(--text-secondary);">
+                            Connectez tous vos outils et créez des workflows intelligents qui fonctionnent 24/7 sans intervention humaine.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Human-Centered Automation -->
+                <div class="hero-card rounded-2xl overflow-hidden shadow-lg" style="background-color: var(--card-bg);">
+                    <div class="h-64 overflow-hidden">
+                        <img
+                            src="https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg?auto=compress&cs=tinysrgb&w=800"
+                            alt="Automatisation centrée sur l'humain - Collaboration humain-IA"
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--text-primary);">
+                            Automatisation centrée sur l'humain
+                        </h3>
+                        <p class="text-base leading-relaxed" style="color: var(--text-secondary);">
+                            L'IA au service de votre équipe. Nous créons des solutions qui augmentent vos capacités, pas qui les remplacent.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
