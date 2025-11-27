@@ -1025,13 +1025,13 @@
                         </button>
                         
                         <div id="successMessage" class="hidden mt-6 bg-green-50 border-l-4 border-green-600 rounded-lg p-4">
-                            <p class="text-green-900 font-semibold text-sm sm:text-base">Merci ! Votre demande a été envoyée.</p>
-                            <p class="text-green-700 text-sm mt-1">Nous vous recontactons sous 24h.</p>
+                            <p class="text-green-900 font-semibold text-sm sm:text-base">✓ Merci, votre demande a bien été envoyée.</p>
+                            <p class="text-green-700 text-sm mt-1">Nous reviendrons vers vous rapidement.</p>
                         </div>
-                        
+
                         <div id="errorMessage" class="hidden mt-6 bg-red-50 border-l-4 border-red-600 rounded-lg p-4">
-                            <p class="text-red-900 font-semibold text-sm sm:text-base">Une erreur s'est produite.</p>
-                            <p class="text-red-700 text-sm mt-1">Veuillez réessayer ou nous contacter directement.</p>
+                            <p class="text-red-900 font-semibold text-sm sm:text-base">Une erreur est survenue.</p>
+                            <p class="text-red-700 text-sm mt-1">Merci de réessayer plus tard.</p>
                         </div>
                         
                         <p class="text-xs text-slate-500 text-center mt-4">
@@ -1335,49 +1335,178 @@
             }
         }
 
-        // Form submission
+        // ============================================
+        // GESTION DU FORMULAIRE DE CONTACT VETIC OPS
+        // Envoi des données vers le webhook n8n
+        // ============================================
+
+        /**
+         * Valide le format d'un email
+         */
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        /**
+         * Affiche un message d'erreur sous un champ spécifique
+         */
+        function showFieldError(fieldName, message) {
+            const field = document.querySelector(`[name="${fieldName}"]`);
+            if (!field) return;
+
+            // Supprimer l'ancien message d'erreur s'il existe
+            const existingError = field.parentElement.querySelector('.field-error');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Ajouter la bordure rouge
+            field.classList.add('border-red-500');
+            field.classList.remove('border-slate-200');
+
+            // Créer et insérer le message d'erreur
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'field-error text-red-600 text-sm mt-1';
+            errorDiv.textContent = message;
+            field.parentElement.appendChild(errorDiv);
+        }
+
+        /**
+         * Supprime tous les messages d'erreur des champs
+         */
+        function clearFieldErrors() {
+            // Supprimer tous les messages d'erreur
+            document.querySelectorAll('.field-error').forEach(el => el.remove());
+
+            // Réinitialiser les bordures
+            document.querySelectorAll('#contactForm input, #contactForm textarea, #contactForm select').forEach(field => {
+                field.classList.remove('border-red-500');
+                field.classList.add('border-slate-200');
+            });
+        }
+
+        /**
+         * Valide le formulaire avant soumission
+         * @returns {boolean} true si le formulaire est valide
+         */
+        function validateForm(formData) {
+            clearFieldErrors();
+            let isValid = true;
+
+            // Validation Prénom (obligatoire)
+            if (!formData.prenom || formData.prenom.trim() === '') {
+                showFieldError('prenom', 'Le prénom est obligatoire');
+                isValid = false;
+            }
+
+            // Validation Nom (obligatoire)
+            if (!formData.nom || formData.nom.trim() === '') {
+                showFieldError('nom', 'Le nom est obligatoire');
+                isValid = false;
+            }
+
+            // Validation Entreprise (obligatoire)
+            if (!formData.entreprise || formData.entreprise.trim() === '') {
+                showFieldError('entreprise', 'Le nom de l\'entreprise est obligatoire');
+                isValid = false;
+            }
+
+            // Validation Email (obligatoire + format)
+            if (!formData.email || formData.email.trim() === '') {
+                showFieldError('email', 'L\'email professionnel est obligatoire');
+                isValid = false;
+            } else if (!isValidEmail(formData.email)) {
+                showFieldError('email', 'Veuillez entrer un email valide');
+                isValid = false;
+            }
+
+            // Validation Tâches (obligatoire)
+            if (!formData.taches || formData.taches.trim() === '') {
+                showFieldError('taches', 'Ce champ est obligatoire');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        /**
+         * Gère la soumission du formulaire de contact
+         * Envoie les données au webhook n8n VETIC-OPS
+         */
         async function handleSubmit(event) {
             event.preventDefault();
-            
+
             const form = event.target;
             const submitBtn = document.getElementById('submitBtn');
             const successMsg = document.getElementById('successMessage');
             const errorMsg = document.getElementById('errorMessage');
-            
-            // Hide messages
+
+            // Masquer les messages précédents
             successMsg.classList.add('hidden');
             errorMsg.classList.add('hidden');
-            
-            // Disable button
+
+            // Récupérer les données du formulaire
+            const formDataObj = new FormData(form);
+            const formData = Object.fromEntries(formDataObj.entries());
+
+            // VALIDATION : vérifier que tous les champs obligatoires sont remplis
+            if (!validateForm(formData)) {
+                // Faire défiler jusqu'au premier champ en erreur
+                const firstError = document.querySelector('.field-error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return; // Arrêter la soumission si la validation échoue
+            }
+
+            // Désactiver le bouton pendant l'envoi
             submitBtn.disabled = true;
             submitBtn.textContent = 'Envoi en cours...';
-            
-            // Get form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            
+
+            // CONSTRUCTION DU PAYLOAD selon la structure requise pour n8n
+            // Mapping des champs du formulaire vers les clés du payload
+            const payload = {
+                firstName: formData.prenom || '',
+                lastName: formData.nom || '',
+                company: formData.entreprise || '',
+                email: formData.email || '',
+                phone: formData.telephone || '',
+                sector: formData.secteur || '',
+                mainTasks: formData.taches || '',
+                tools: formData.outils || '',
+                priority: formData.priorite || 'non-urgent',
+                source: 'vetic-ops-form'
+            };
+
             try {
-                // REMPLACEZ 'YOUR_N8N_WEBHOOK_URL' PAR VOTRE VRAIE URL N8N
-                const response = await fetch('https://novaautomatisation.app.n8n.cloud/webhook/nova-contact', {
+                // ENVOI AU WEBHOOK N8N
+                const response = await fetch('https://novaautomatisation.app.n8n.cloud/webhook/VETIC-OPS', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(payload)
                 });
-                
+
+                // GESTION DE LA RÉPONSE
                 if (response.ok) {
+                    // Succès : afficher le message de confirmation
                     successMsg.classList.remove('hidden');
-                    form.reset();
+                    form.reset(); // Vider le formulaire
+                    clearFieldErrors(); // Nettoyer les erreurs éventuelles
                     successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
-                    throw new Error('Network error');
+                    // Erreur HTTP (4xx, 5xx)
+                    throw new Error('Erreur lors de l\'envoi');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                // GESTION DES ERREURS (réseau, serveur, etc.)
+                console.error('Erreur lors de la soumission du formulaire:', error);
                 errorMsg.classList.remove('hidden');
                 errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } finally {
+                // Réactiver le bouton dans tous les cas
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Envoyer ma demande';
             }
