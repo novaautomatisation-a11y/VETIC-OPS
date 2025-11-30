@@ -1,129 +1,211 @@
-# API Backend Contact - Agence Automatisation IA
+# Dentismart - Solution SaaS Multi-Tenant pour Cabinets Dentaires
 
-Backend Node.js/TypeScript sécurisé pour gérer les formulaires de contact avec analyse IA et notifications email.
+Solution suisse pour cabinets dentaires et médicaux : réduction des rendez-vous non honorés, augmentation des avis Google 5★ et allègement de la charge du secrétariat.
 
-## Fonctionnalités
+## 🚀 PHASE 1 - Structure, Auth et Dashboard (Terminée)
 
-- ✅ Validation des données de formulaire
-- 🤖 Analyse IA automatique (résumé + priorité)
-- 🔒 Chiffrement des données sensibles
-- 💾 Stockage sécurisé dans Supabase
-- 📧 Notification admin par email
-- ✉️ Email de confirmation au prospect (français)
-- 🛡️ Gestion complète des erreurs
+### Technologies
+- **Frontend**: Next.js 15 (App Router) + React 19 + TypeScript + Tailwind CSS
+- **Backend**: Next.js API Routes + Supabase (Postgres + Auth + RLS)
+- **Database**: Supabase Postgres (multi-tenant avec `cabinet_id`)
+- **Auth**: Supabase Auth (email + mot de passe)
 
-## Installation
+---
+
+## 📦 Installation et Configuration
+
+### 1. Installer les dépendances
 
 ```bash
-# Installer les dépendances
 npm install
-
-# Copier et configurer les variables d'environnement
-cp .env.example .env
-# Éditer .env avec vos vraies valeurs
 ```
 
-## Configuration Supabase
+### 2. Configurer Supabase
 
-1. Créer un projet sur [Supabase](https://supabase.com)
-2. Exécuter le script SQL dans l'éditeur SQL Supabase:
+1. Créez un projet sur [Supabase](https://app.supabase.com)
+2. Copiez `.env.local.example` vers `.env.local`
+3. Remplissez les variables d'environnement :
+
 ```bash
-cat supabase-schema.sql
+# .env.local
+NEXT_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon_publique
 ```
-3. Récupérer l'URL et la clé service role dans Settings > API
 
-## Configuration Gmail
+**Où trouver ces valeurs ?**
+- Dashboard Supabase → Settings → API
+- `URL` : Project URL
+- `anon public` : anon / public key
 
-1. Activer l'authentification à 2 facteurs sur votre compte Gmail
-2. Générer un mot de passe d'application:
-   - Compte Google > Sécurité > Validation en deux étapes > Mots de passe d'application
-3. Utiliser ce mot de passe dans `GMAIL_APP_PASSWORD`
+### 3. Exécuter le schema SQL
 
-## Configuration AI API
+Dans le SQL Editor de Supabase, exécutez le script SQL fourni (`schema_sql`) pour créer :
+- Tables : `cabinets`, `profiles`, `dentistes`, `patients`, `rendez_vous`, `messages`
+- Row Level Security (RLS) policies pour isolation multi-tenant stricte
 
-Pour OpenAI:
-- Créer une clé API sur [platform.openai.com](https://platform.openai.com/api-keys)
+---
 
-Pour Claude (Anthropic):
-- Remplacer l'URL par `https://api.anthropic.com/v1/messages`
-- Adapter les headers et le format de requête
+## 🧪 Tester l'Application en Local
 
-## Utilisation
+### Lancer le serveur de développement
 
-### Développement
 ```bash
 npm run dev
 ```
 
-### Production
-```bash
-npm run build
-npm start
+L'application sera accessible sur **http://localhost:3000**
+
+### Créer des données de test
+
+**Via Supabase Dashboard (Table Editor) :**
+
+1. **Créer un cabinet** (table `cabinets`)
+   - `name`: "Cabinet Dentaire de Genève"
+   - `address`: "Rue du Rhône 1, 1204 Genève"
+   - `phone`: "+41 22 123 45 67"
+
+2. **Créer un utilisateur** (Authentication → Users)
+   - Email: `test@dentismart.ch`
+   - Password: `Test1234!`
+   - Copiez l'`id` de l'utilisateur créé
+
+3. **Créer un profil** (table `profiles`)
+   - `id`: [ID de l'utilisateur copié]
+   - `cabinet_id`: [ID du cabinet créé]
+   - `role`: "owner"
+
+4. **Créer un dentiste** (table `dentistes`)
+   - `cabinet_id`: [ID du cabinet]
+   - `full_name`: "Dr. Marie Dupont"
+   - `speciality`: "Orthodontie"
+   - `is_active`: true
+
+5. **Créer des patients** (table `patients`)
+   - `cabinet_id`: [ID du cabinet]
+   - `dentiste_id`: [ID du dentiste]
+   - `first_name`: "Jean"
+   - `last_name`: "Martin"
+   - `phone`: "+41 79 123 45 67"
+   - `email`: "jean.martin@example.ch"
+   - `language`: "fr"
+
+6. **Créer des rendez-vous** (table `rendez_vous`)
+   - `cabinet_id`: [ID du cabinet]
+   - `dentiste_id`: [ID du dentiste]
+   - `patient_id`: [ID du patient]
+   - `starts_at`: [Date d'aujourd'hui ou demain au format ISO]
+   - `status`: "scheduled"
+   - `notes`: "Contrôle annuel"
+
+**Exemple de date ISO pour aujourd'hui à 14h00 :**
+```
+2025-11-30T14:00:00+01:00
 ```
 
-## API Endpoint
+---
 
-### POST /api/contact
+## ✅ Tester le Login et le Dashboard
 
-**Request:**
-```json
-{
-  "name": "Jean Dupont",
-  "email": "jean@example.com",
-  "company": "Example SA",
-  "budget": "10000-20000 CHF",
-  "deadline": "3 mois",
-  "details": "Je cherche à automatiser la gestion de mes factures..."
-}
-```
+### 1. Tester `/login`
 
-**Response (succès):**
-```json
-{
-  "success": true,
-  "message": "Votre demande a été envoyée avec succès"
-}
-```
+1. Ouvrir **http://localhost:3000/login**
+2. Saisir les identifiants :
+   - Email: `test@dentismart.ch`
+   - Password: `Test1234!`
+3. Cliquer sur "Se connecter"
+4. ✅ Vous devez être redirigé vers `/dashboard`
 
-**Response (erreur):**
-```json
-{
-  "success": false,
-  "error": "Message d'erreur"
-}
-```
+### 2. Tester `/dashboard`
 
-## Sécurité
+Une fois connecté, vous devez voir :
 
-- ✅ Toutes les clés API en variables d'environnement
-- ✅ Chiffrement AES-256-CBC des données sensibles
-- ✅ Validation stricte des entrées
-- ✅ Pas de fuite d'informations dans les erreurs
-- ✅ Service role Supabase (pas de clé publique)
-- ✅ HTTPS recommandé en production
+- **Nom du cabinet** : "Cabinet Dentaire de Genève"
+- **Rôle** : "Propriétaire"
+- **3 statistiques** :
+  - 📊 **Patients total** : Nombre de patients dans votre cabinet
+  - 📅 **Rendez-vous aujourd'hui** : Nombre de RDV pour aujourd'hui
+  - 🗓️ **Rendez-vous demain** : Nombre de RDV pour demain
 
-## Intégration n8n
+### 3. Vérifier l'isolation multi-tenant
 
-Pour utiliser cette API dans n8n:
+**Test de sécurité RLS :**
 
-1. Déployer ce backend sur un serveur (Heroku, Railway, DigitalOcean, etc.)
-2. Dans n8n, utiliser le node "HTTP Request"
-3. Configurer:
-   - Method: POST
-   - URL: https://votre-domaine.com/api/contact
-   - Body: JSON avec les champs du formulaire
+1. Créer un **2ème cabinet** dans Supabase
+2. Créer un **2ème utilisateur** lié au 2ème cabinet
+3. Ajouter des **patients/rendez-vous** au 2ème cabinet
+4. Se connecter avec le 1er utilisateur (`test@dentismart.ch`)
+5. ✅ Vérifier que seuls les patients/rendez-vous du **cabinet 1** sont visibles
+6. Se déconnecter et se connecter avec le 2ème utilisateur
+7. ✅ Vérifier que seuls les patients/rendez-vous du **cabinet 2** sont visibles
 
-## Structure du projet
+**Résultat attendu** : Isolation totale, impossible de voir les données d'un autre cabinet.
+
+---
+
+## 📁 Structure du Projet
 
 ```
-├── contact-api.ts          # Code principal
-├── package.json            # Dépendances
-├── tsconfig.json           # Configuration TypeScript
-├── .env.example            # Template variables d'environnement
-├── supabase-schema.sql     # Schéma base de données
-└── README.md               # Documentation
+dentismart/
+├── app/
+│   ├── layout.tsx              # Layout racine
+│   ├── page.tsx                # Redirect vers /dashboard
+│   ├── globals.css             # Styles globaux Tailwind
+│   ├── login/
+│   │   └── page.tsx            # Page de connexion
+│   └── dashboard/
+│       └── page.tsx            # Dashboard principal (Server Component)
+│
+├── components/
+│   └── dashboard/
+│       ├── StatsCard.tsx       # Carte de statistique
+│       └── LogoutButton.tsx    # Bouton déconnexion
+│
+├── lib/
+│   ├── supabase/
+│   │   ├── client.ts           # Client Supabase (navigateur)
+│   │   └── server.ts           # Client Supabase (serveur + cookies)
+│   └── types/
+│       └── database.types.ts   # Types TypeScript du schema
+│
+├── middleware.ts               # Protection routes + refresh session
+├── .env.local.example          # Template variables d'environnement
+└── package.json
 ```
 
-## Support
+---
 
-Pour toute question, contactez votre équipe technique.
+## 🔐 Sécurité Multi-Tenant
+
+### Isolation par `cabinet_id`
+
+- **Toutes les tables métier** contiennent `cabinet_id`
+- **Row Level Security (RLS)** active sur toutes les tables
+- **Policies RLS** vérifient automatiquement que `auth.uid()` appartient au même cabinet
+- **Impossible de contourner** : RLS appliqué au niveau PostgreSQL
+
+### Bonnes pratiques
+
+✅ **TOUJOURS utiliser** `createClient()` côté serveur pour bénéficier des RLS
+✅ **JAMAIS exposer** `SUPABASE_SERVICE_ROLE_KEY` côté client
+✅ **JAMAIS contourner** les RLS dans le code applicatif
+✅ **TOUJOURS filtrer** par `cabinet_id` dans les requêtes (sécurité defense-in-depth)
+
+---
+
+## 🎯 Prochaine Étape : PHASE 2
+
+**PHASE 2 ajoutera :**
+- 📋 Gestion des patients (liste + CRUD)
+- 📅 Gestion des rendez-vous (liste + CRUD + changement statut)
+- 📱 Envoi de SMS de rappel via Twilio
+- 🔔 Route API `/api/rendezvous/send-reminder`
+
+**Pour passer à PHASE 2** : Demandez explicitement à poursuivre après avoir validé PHASE 1.
+
+---
+
+## 📞 Support
+
+Pour toute question sur Dentismart, contactez l'équipe de développement.
+
+**Licence** : Propriétaire - © 2025 Dentismart
