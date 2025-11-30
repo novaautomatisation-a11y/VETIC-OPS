@@ -1,0 +1,81 @@
+/* app/globals.css - Styles globaux VETIC OPS */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-cyan: #38bdf8;
+  --primary-cyan-dark: #0ea5e9;
+  --dark-bg: #020617;
+  --dark-surface: #0f172a;
+  --dark-card: #1e293b;
+  --dark-border: #334155;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-dark-bg text-gray-100;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  /* Boutons */
+  .btn-primary {
+    @apply bg-primary-400 hover:bg-primary-500 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-card hover:bg-dark-border text-gray-100 font-medium px-4 py-2 rounded-lg border border-dark-border transition-all duration-200;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-dark-surface border border-dark-border rounded-lg p-6 shadow-lg;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-xl hover:border-primary-400 transition-all duration-300 hover:-translate-y-1;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full px-4 py-2 bg-dark-card border border-dark-border rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all;
+  }
+
+  /* Tables */
+  .table-container {
+    @apply overflow-x-auto rounded-lg border border-dark-border;
+  }
+
+  .table {
+    @apply min-w-full divide-y divide-dark-border;
+  }
+
+  .table-header {
+    @apply bg-dark-card;
+  }
+
+  .table-header-cell {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider;
+  }
+
+  .table-body {
+    @apply bg-dark-surface divide-y divide-dark-border;
+  }
+
+  .table-cell {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-300;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
